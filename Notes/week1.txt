@@ -1,0 +1,4 @@
+Questions:
+1. Why Languages? - Basics understanding of How Coding and machine works.
+2. Interpreted Vs Compiled Languages. - First Need to compile and the run, Second goes to line by line
+3. Static Vs Dynamic - 
