@@ -20,13 +20,41 @@
             cursor: pointer;
             color: #387ed1;
         }
-        main .img{
+
+        main .img {
             margin: 60px 0px;
+            margin-bottom: 40px;
         }
-        
+
         h1,
-        h3{
+        h3 {
             font-family: "Inter", sans-serif;
+            color: #424242;
+        }
+
+        h1 {
+            margin-top: -10px;
+            font-weight: 550;
+            font-size: 3em;
+        }
+
+        h3 {
+            margin-top: -10px;
+            font-weight: 300;
+        }
+
+        a {
+            margin-top: 20px;
+            padding: 10px 30px;
+            background-color: #387ed1;
+            color: #fff;
+            border: 1px solid rgba(0, 0, 0, 0) !important;
+            border-radius: 3px;
+            font-family: "Inter", serif;
+            text-decoration: none;
+        }
+        a:hover{
+            background-color: #424242;
         }
     </style>
 </head>
@@ -36,7 +64,7 @@
         style="display: flex; justify-content: space-between; padding: 10px 100px;box-shadow: 2px 1px 2px #eee;">
         <div>
             <span class="topbarlogo">
-                <img width="170px" src="https://zerodha.com/static/images/logo.svg" alt="zerodha logo">
+                <img width="160px" src="https://zerodha.com/static/images/logo.svg" alt="zerodha logo">
             </span>
         </div>
         <div>
@@ -49,7 +77,8 @@
     </div>
     <main>
         <div style="display: flex; justify-content: center;">
-            <img class="img" width="800px" src="https://zerodha.com/static/images/landing.png" alt="Zerodha Ui Main Page">
+            <img class="img" width="800px" src="https://zerodha.com/static/images/landing.png"
+                alt="Zerodha Ui Main Page">
         </div>
         <div style="display: flex; justify-content: center;">
             <h1>Invest in everything
@@ -60,9 +89,10 @@
             </h3>
         </div>
         <div style="display: flex; justify-content: center;">
-            <button>Sign up now</button>
+            <a href="/">Sign up now</a>
         </div>
 
     </main>
-</body>
+    </body>
+
 </html>
