@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+app.use(express.json());
+
 const user = [
     {
         name: 'John',
@@ -23,22 +25,48 @@ app.get('/', (req, res) => {
             healhtyKidneys++;
         }
     }
-    res.send(`User ${user[0].name} has ${kidneyCount} kidneys and ${healhtyKidneys} healthy kidneys`);
+    res.json({
+        name: user[0].name,
+        kidneyCount : kidneyCount,
+        healhtyKidneys : healhtyKidneys
+    });
+
+    console.log("Get Req Hit");
 });
 
 app.post('/', (req, res) => {
-    // Handle POST request
-    res.send('Received a POST request.');
+    const isHealthy = req.body.isHealthy;
+    user[0].kidneys.push({
+        healthy: isHealthy
+    })
+    res.json({
+        message: "Done!!"
+    });
+
+    console.log('Post Req Hit');
 });
 
 app.put('/', (req, res) => {
-    // Handle PUT request
-    res.send('Received a PUT request.');
+    for(let i = 0; i <user[0].kidneys.length;i++){
+        user[0].kidneys[i].healthy = true;
+    }
+    console.log('Put req Hit');
+    res.json({
+        "msg": "Done"
+    })
 });
 
 app.delete('/', (req, res) => {
-    // Handle DELETE request
-    res.send('Received a DELETE request.');
+    let userKideny = [];
+    for(let i = 0; i <user[0].kidneys.length;i++){
+        if(user[0].kidneys[i].healthy){
+            userKideny.push({healthy: true});
+        } 
+    }
+    user[0].kidneys = userKideny;
+    res.json({
+        "MSG":'Received a DELETE request.'}
+    );
 });
 
 app.listen(port, () => {
