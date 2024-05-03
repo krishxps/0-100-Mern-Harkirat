@@ -64,6 +64,7 @@ app.delete('/', (req, res) => {
         } 
     }
     user[0].kidneys = userKideny;
+    console.log('Delete req Hit');
     res.json({
         "MSG":'Received a DELETE request.'}
     );
