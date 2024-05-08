@@ -33,5 +33,22 @@ const express = require("express")
 const PORT = 3000;
 const app = express();
 // write your logic here, DONT WRITE app.listen(3000) when you're running tests, the tests will automatically start the server
+const users = [];
 
+function generateUserId() {
+  return users.length + 1;
+}
+
+app.post('/signup',(req,res)=>{
+  let flag = 0;
+  const {username,password,firstName,lastName} = req.body;
+
+  const existingUser = users.find(user => user.username === username);
+
+  if(existingUser){
+    return res.status(400).json({error:'User Already Exists'});
+  }
+  
+  const id = users.length + 1;
+})
 module.exports = app;
