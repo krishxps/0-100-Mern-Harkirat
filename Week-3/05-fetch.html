@@ -9,6 +9,7 @@
 
 <body>
   <script>
+    // Noob Version - Version 1
     function functionforFetch() {
       // Fetch is async function so .then
       fetch("https://fakerapi.it/api/v1/persons")
@@ -17,6 +18,14 @@
           (finalData) => console.log(finalData)
         ))
     }
+
+    // Cleaner Version
+    async function functionforFetch(){
+      const response = await fetch("https://fakerapi.it/api/v1/persons");
+      const finalData = await response.json();
+      console.log(finalData);
+    }
+
   </script>
   <button onclick="functionforFetch()">Test</button>
 </body>
