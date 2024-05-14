@@ -7,6 +7,9 @@ const port = 3000;
 app.use(express.json());
 
 let errorCount = 0;
+let responseCount = 0;
+let validResponse = 0;
+let invalidResponse = 0;
 
 // Describing structure of input
 const input = zod.array(zod.number());
@@ -24,8 +27,19 @@ app.post('/', (req, res) => {
 
     //will check if input is valid
     const response = input.safeParse(kidney);
+    
+    if(response.success){
+        validResponse++;
+    }else{
+        invalidResponse++;
+    }
 
-    console.log(response);
+    console.log({
+        response: response,
+        responseCount: ++responseCount,
+        validResponse: validResponse,
+        invalidResponse: invalidResponse
+    });
 
     res.send({
         response
@@ -34,7 +48,21 @@ app.post('/', (req, res) => {
 
 app.post('/test',(req,res) =>{
     const response = schema.safeParse(req.body);
-    console.log(response);
+
+    //will check if input is valid
+    if(response.success){
+        validResponse++;
+    }else{
+        invalidResponse++;
+    }
+    
+    console.log({
+        response: response,
+        responseCount: ++responseCount,
+        validResponse: validResponse,
+        invalidResponse: invalidResponse
+    });
+
     res.send({
         response
     })
