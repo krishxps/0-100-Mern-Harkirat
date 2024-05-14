@@ -7,7 +7,10 @@ const port = 3000;
 app.use(express.json());
 
 function middleware(req, res, next) {
-    fetch().then((data) => {
+    fetch().then(() => {
+        if(zod.isKidney(req.body.kidney)){
+            throw new Error('kidney is not valid');
+        }
         next();
     })
 }
