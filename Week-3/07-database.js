@@ -1,34 +1,36 @@
-// getting-started.js
-const mongoose = require('mongoose');
-const {uri} = require('../database.js');
+// Mongoose  Library
+const mongoose = require("mongoose");
 
-main().catch(err => console.log(err));
+// Database Named BAMMM
+const {bammm} = require("../database.js");
 
-async function main() {
-  await mongoose.connect(uri);
-  console.log("Database connected");
-}
+// Connect to Database
+mongoose.connect(bammm);
 
-const kittySchema = new mongoose.Schema({
-    name: String
+// User Schema - How data will be stored
+const user = mongoose.model("User", {
+  name: String,
+  username: String,
+  password: String
 });
 
-// NOTE: methods must be added to the schema before compiling it with mongoose.model()
-kittySchema.methods.speak = function speak() {
-    const greeting = this.name
-      ? 'Meow name is ' + this.name
-      : 'I don\'t have a name';
-    console.log(greeting);
-  };
-  
-  const Kitten = mongoose.model('Kitten', kittySchema);
-  const silence = new Kitten({ name: 'Silence' });
-  console.log(silence);
+// Create Users
+const user1 = new user({
+  name: "harkirat singh",
+  username: "harkirat@gmail",
+  password: "123"
+});
 
-  const fluffy = new Kitten({ name: 'fluffy' });
-fluffy.speak(); // "Meow name is fluffy"
+const user2 = new user({
+  name: "Raman singh",
+  username: "raman@gmail",
+  password: "123321" 
+});
 
-const kittens =  Kitten.find();
-console.log(kittens);
+const users = [user1, user2];
 
-Kitten.find({ name: /^fluff/ });
+// Save Users
+users.forEach(user => {
+  // user.save(); will save users otherwise user will not be saved
+  user.save().then(console.log("user created:",user));
+});
