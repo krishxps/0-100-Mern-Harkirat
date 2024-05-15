@@ -16,18 +16,23 @@ const user = mongoose.model("User", {
 
 // Create Users
 const user1 = new user({
-  name: "harkirat singh",
-  username: "harkirat@gmail",
-  password: "123"
+  name: "Pattarawan Sarvodaya",
+  username: "bam@gmail",
+  password: "IlovedThatBlackSTshirtGuy"
 });
 
 const user2 = new user({
-  name: "Raman singh",
-  username: "raman@gmail",
-  password: "123321" 
+  name: "Krish Patel",
+  username: "Krish@gmail",
+  password: "IloveParsianGirl" 
 });
 
-const users = [user1, user2];
+const user3 = new user({
+  name: "Aryan Patel",
+  username: "aryan@gmail",
+  password: "IloveMilf" 
+});
+const users = [user1, user2, user3];
 
 // Save Users
 users.forEach(user => {
