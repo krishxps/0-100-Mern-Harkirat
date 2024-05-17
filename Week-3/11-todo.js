@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 // Import database configuration
-const { bammm } = require('./database.js');
+const { bammm } = require('../database.js');
 
 // Initialize the app and configure middleware
 const app = express();
