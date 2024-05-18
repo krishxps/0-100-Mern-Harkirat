@@ -4,24 +4,50 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Simple Calculate</title>
+    <title>Simple Calculator</title>
 </head>
 
 <body>
-    <input id="num1" placeholder="First Num" type="text">
-    <br>
-    <input id="num2" placeholder="Second Num" type="text">
-    <br>
-    <button onclick="calcSum()"> Submit</button>
+    <form id="calcForm" onsubmit="calcSum(event)">
+        <input id="num1" placeholder="First Num" type="text" aria-label="First Number">
+        <br>
+        <input id="num2" placeholder="Second Num" type="text" aria-label="Second Number">
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    <div id="result"></div>
+
     <script>
-        function calcSum() {
+        function calcSum(event) {
+            event.preventDefault(); // Prevent form from submitting
             let a = document.getElementById("num1").value;
             let b = document.getElementById("num2").value;
-            let c = parseInt(a) + parseInt(b);
+
+            if (a.trim() === "" || b.trim() === "") {
+                alert("Both fields must be filled out");
+                return;
+            }
+
+            if (isNaN(a) || isNaN(b)) {
+                alert("Please enter valid numbers");
+                if (isNaN(a)) {
+                    document.getElementById("num1").focus();
+                } else {
+                    document.getElementById("num2").focus();
+                }
+                return;
+            }
+
+            let c = parseFloat(a) + parseFloat(b);
+
+            let resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = ""; 
+
             let child = document.createElement("p");
-            child.innerText = c;
-            document.body.appendChild(child);
+            child.innerText = `Sum is ${c}`;
+            resultDiv.appendChild(child);
         }
     </script>
 </body>
+
 </html>
