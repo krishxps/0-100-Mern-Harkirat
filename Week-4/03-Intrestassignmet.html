@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interest Calculator</title>
+</head>
+<body> 
+    <input id="Principal" type="text" placeholder="First number">
+    <br>
+    <input id="Rate" type="text" placeholder="Second number">
+    <br>
+    <input id="Time" type="text" placeholder="Second number">
+    <br>
+    <button onclick="sum()">Calculate sum</button>
+    <br>
+    <div id="Get result"></div>
+
+    <script>
+        async function sum() {
+            const p = document.getElementById("Principal").value;
+            const r = document.getElementById("Rate").value;
+            const t = document.getElementById("Time").value;
+
+            const result = await fetch(`https://sum-server.100xdevs.com/interest?principal=${p}&rate=${r}&time=${t}`);
+            const ans = await result.json();
+
+            document.getElementById("Get result").innerHTML = `Total: ${ans.total}, Interest: ${ans.interest}`;
+        }
+    </script>
+
+</body>
+</html>
