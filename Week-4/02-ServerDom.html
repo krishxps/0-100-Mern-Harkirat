@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Sum Calculator</title>
+</head>
+
+<body>
+    <input id="firstNumber" type="text" placeholder="First number">
+    <br>
+    <input id="secondNumber" type="text" placeholder="Second number">
+    <br>
+    <button onclick="sum()">Calculate sum</button>
+    <br>
+    <div id="finalSum"></div>
+
+    <script>
+        function populateDiv() {
+            const a = document.getElementById("firstNumber").value;
+            const b = document.getElementById("secondNumber").value;
+            // Fetch the sum from the server
+            fetch("https://sum-server.100xdevs.com/sum?a=" + a + "&b=" + b)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (ans) {
+                    document.getElementById("finalSum").innerHTML = ans;
+                })
+                .catch(function (error) {
+                    console.error('Error:', error);
+                    alert('There was an error calculating the sum. Please try again.');
+                });
+        }
+        async function sum(){
+            const a = document.getElementById("firstNumber").value;
+            const b = document.getElementById("secondNumber").value;
+            const response = await fetch("https://sum-server.100xdevs.com/sum?a=" + a + "&b=" + b);
+            const ans = await response.text();
+            document.getElementById("finalSum").innerHTML = ans;
+        }
+    </script>
+</body>
+
+</html>
