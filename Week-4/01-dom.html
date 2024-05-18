@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Simple Calculate</title>
+</head>
+
+<body>
+    <input id="num1" placeholder="First Num" type="text">
+    <br>
+    <input id="num2" placeholder="Second Num" type="text">
+    <br>
+    <button onclick="calcSum()"> Submit</button>
+    <script>
+        function calcSum() {
+            let a = document.getElementById("num1").value;
+            let b = document.getElementById("num2").value;
+            let c = parseInt(a) + parseInt(b);
+            let child = document.createElement("p");
+            child.innerText = c;
+            document.body.appendChild(child);
+        }
+    </script>
+</body>
+</html>
