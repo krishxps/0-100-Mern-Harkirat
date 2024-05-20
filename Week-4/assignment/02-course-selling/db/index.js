@@ -1,11 +1,11 @@
-const bammm = "mongodb+srv://admin:admin@krishxps.yox3f71.mongodb.net/bammm?retryWrites=true&w=majority&appName=krishxps";
-
+const bammm = require('../../../../database.js');
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect(bammm).then(() => {
+mongoose.connect(bammm.uri).then(() => {
     console.log('Connected to MongoDB');
 });
+
 // Define schemas
 const AdminSchema = new mongoose.Schema({
     // Schema definition here
