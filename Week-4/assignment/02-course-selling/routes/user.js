@@ -1,22 +1,24 @@
-const { Router } = require("express");
-const router = Router();
-const userMiddleware = require("../middleware/user");
+const { User } = require("../db");
 
-// User Routes
-router.post('/signup', (req, res) => {
-    // Implement user signup logic
-});
+function userMiddleware(req, res, next) {
+    // Implement admin auth logic
+    // You need to check the headers and validate the admin from the admin DB. Check readme for the exact headers to be expected
+    const username = req.headers.username;
+    const password = req.headers.password; 
 
-router.get('/courses', (req, res) => {
-    // Implement listing all courses logic
-});
+    User.findOne({
+        username: username,
+        password: password
+    })
+    .then(function(value) {
+        if (value) {
+            next();
+        } else {
+            res.status(403).json({
+                msg: "User doesnt exist"
+            })
+        }
+    })
+}
 
-router.post('/courses/:courseId', userMiddleware, (req, res) => {
-    // Implement course purchase logic
-});
-
-router.get('/purchasedCourses', userMiddleware, (req, res) => {
-    // Implement fetching purchased courses logic
-});
-
-module.exports = router
+module.exports = userMiddleware;
