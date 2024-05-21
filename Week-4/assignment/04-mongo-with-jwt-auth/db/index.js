@@ -1,8 +1,8 @@
-const bammm = require('../../../../database.js');
+const {bammm} = require('../../../../database');
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect(bammm.uri).then(() => {
+mongoose.connect(bammm).then(() => {
     console.log('Connected to MongoDB');
 });
 
