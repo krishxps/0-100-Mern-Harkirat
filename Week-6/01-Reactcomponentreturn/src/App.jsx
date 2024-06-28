@@ -137,14 +137,26 @@
 function App(){
     return <div>
         <CardWrapper>
-            Hi there
+            <CardWrapper>
+                LOL
+            </CardWrapper>
+                <Something />
+            <CardWrapper>
+                Hi there
+            </CardWrapper>
         </CardWrapper>
     </div>
 }
 
 function CardWrapper({children}){
-    return <div style={{border:"2px solid black",padding: 20}}>
+    return <div style={{border:"2px solid black",padding: 20,textAlign:"center"}}>
         {children}
     </div>
+}
+
+function Something(){
+    return <>
+        <h2 style={{textAlign: "center"}}>Something</h2>
+    </>
 }
 export default App
