@@ -1,8 +1,7 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/prop-types */
 // import React, { useState } from 'react'
-import { useState } from 'react';
-import './App.css'
+
 ////////////////////////////////////////////////////////////////////////////////
 //  Re-Render
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,48 +61,90 @@ import './App.css'
 ////////////////////////////////////////////////////////////////////////////////
 //  Keys in React
 ////////////////////////////////////////////////////////////////////////////////
+// let counter = 3;
+// function App() {
+//   const [todo, setTodo] = useState([{
+//     id: 1,
+//     title: "Go to gym",
+//     description: "Go to gym Today"
+//   },
+//   {
+//     id: 2,
+//     title: "Lol",
+//     description: "Go to gym Today Lol"
+//   }, {
+//     id: 3,
+//     title: "Hahahah",
+//     description: "Go to gym Today Hahahah"
+//   }]);
 
-let counter = 3;
-function App() {
-  const [todo, setTodo] = useState([{
-    id: 1,
-    title: "Go to gym",
-    description: "Go to gym Today"
-  },
-  {
-    id: 2,
-    title: "Lol",
-    description: "Go to gym Today Lol"
-  }, {
-    id: 3,
-    title: "Hahahah",
-    description: "Go to gym Today Hahahah"
-  }]);
+//   function addTodo() {
+//     setTodo([...todo,{
+//       id: ++counter,
+//       title: Math.random(),
+//       description: Math.random()
+//     }])
+//   }
 
-  function addTodo() {
-    setTodo([...todo,{
-      id: ++counter,
-      title: Math.random(),
-      description: Math.random()
-    }])
-  }
+//   return <>
+//     <button onClick={addTodo}>Add Todo</button>
+//     {/* We need key to uniquely identify each component so in future react can figure what to change so when state change it can help in re-rendering*/}
+//     {todo.map(todo => <Todo key={todo.id} title={todo.title} description={todo.description}></Todo>)}
+//   </>
+// }
 
-  return <>
-    <button onClick={addTodo}>Add Todo</button>
-    {/* We need key to uniquely identify each component so in future react can figure what to change so when state change it can help in re-rendering*/}
-    {todo.map(todo => <Todo key={todo.id} title={todo.title} description={todo.description}></Todo>)}
-  </>
+// function Todo({ title, description }) {
+//   return <div>
+//     <h1>
+//       {title}
+//     </h1>
+//     <h4>
+//       {description}
+//     </h4>
+//   </div>
+// }
+
+////////////////////////////////////////////////////////////////////////////////
+//  Fake Wrapper 
+////////////////////////////////////////////////////////////////////////////////
+// function App(){
+//     return <div>
+//         <CardWarapper InnerComponent={WhoKnows} />
+//         <CardWarapper InnerComponent={TextComponent} />
+//     </div>
+// }
+// function TextComponent(){
+//     return <div>
+//         Hi there
+//     </div>
+// }
+
+// function WhoKnows(){
+//     return <div>
+//         From Who Knows
+//     </div>
+// }
+
+// function CardWarapper({InnerComponent}){
+//     return <div style={{border:'2px solid black'}} >
+//         <InnerComponent />
+//     </div>
+// }
+
+////////////////////////////////////////////////////////////////////////////////
+//  Real - Wrapper 
+////////////////////////////////////////////////////////////////////////////////
+function App(){
+    return <div>
+        <CardWrapper>
+            Hi there
+        </CardWrapper>
+    </div>
 }
 
-function Todo({ title, description }) {
-  return <div>
-    <h1>
-      {title}
-    </h1>
-    <h4>
-      {description}
-    </h4>
-  </div>
+function CardWrapper({children}){
+    return <div style={{border:"2px solid black",padding: 20}}>
+        {children}
+    </div>
 }
-
 export default App
