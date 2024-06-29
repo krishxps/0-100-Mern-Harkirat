@@ -134,29 +134,41 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Real - Wrapper 
 ////////////////////////////////////////////////////////////////////////////////
+// function App(){
+//     return <div>
+//         <CardWrapper>
+//             <CardWrapper>
+//                 LOL
+//             </CardWrapper>
+//                 <Something />
+//             <CardWrapper>
+//                 Hi there
+//             </CardWrapper>
+//         </CardWrapper>
+//     </div>
+// }
+
+// function CardWrapper({children}){
+//     return <div style={{border:"2px solid black",padding: 20,textAlign:"center"}}>
+//         {children}
+//     </div>
+// }
+
+// function Something(){
+//     return <>
+//         <h2 style={{textAlign: "center"}}>Something</h2>
+//     </>
+// }
+
+////////////////////////////////////////////////////////////////////////////////
+//  Made App Function for Avoiding Error in Github
+////////////////////////////////////////////////////////////////////////////////
 function App(){
-    return <div>
-        <CardWrapper>
-            <CardWrapper>
-                LOL
-            </CardWrapper>
-                <Something />
-            <CardWrapper>
-                Hi there
-            </CardWrapper>
-        </CardWrapper>
-    </div>
-}
-
-function CardWrapper({children}){
-    return <div style={{border:"2px solid black",padding: 20,textAlign:"center"}}>
-        {children}
-    </div>
-}
-
-function Something(){
     return <>
-        <h2 style={{textAlign: "center"}}>Something</h2>
+        <h1 style={{fontFamily: "monospace"}}>
+            Return Karta h kuchto
+        </h1>
     </>
 }
-export default App
+
+export default App;
