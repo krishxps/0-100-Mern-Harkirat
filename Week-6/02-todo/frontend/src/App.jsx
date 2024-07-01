@@ -2,8 +2,26 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 function App() {
+  const [num,changeNum] = useState(1);
   return <div>
-    <Todo id={1} />
+    <button onClick={()=>{
+      changeNum(1);
+    }}>
+      1
+    </button>
+    <button onClick={()=>{
+      changeNum(2);
+    }}>2</button>
+    <button onClick={()=>{
+      changeNum(3);
+    }}>3</button>
+    <button onClick={()=>{
+      changeNum(4);
+    }}>4</button>
+    <button onClick={()=>{
+      changeNum(5);
+    }}>5</button>
+    <Todo id={num} />
   </div>
 }
 
