@@ -1,0 +1,53 @@
+Register : class - username , password , isAdmin
+Login : class - username , password
+Todo: class - title , description , completed , created , deadline
+
+User : 
+- Can Register
+- Can Login
+- Can Create Todo
+- Can Update Todo
+- Can Delete Todo
+- Can View Todo
+
+Admin : 
+- Can Register
+- Can Login
+- Can Create Todo
+- Can Update Todo
+- Can Delete Todo
+- Can View Todo
+- Can Delete User
+
+Technologies :
+- Backend:
+    - Node.js
+    - Express.js
+    - Mongoose
+    - JWT
+    - Zod
+- Frontend:
+    - React.js
+
+Backend :-
+Routes -
+- /register
+- /login
+- /todos
+- /todos/:id
+- /update-todo/:id
+- /delete-todo/:id
+
+Middlewares -
+- check-auth
+- check-admin
+
+Frontend :-
+Routes -
+- /
+- /register
+- /login
+- /todos
+- /todos/:id
+- /update-todo/:id
+- /delete-todo/:id
