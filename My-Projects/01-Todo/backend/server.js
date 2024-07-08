@@ -163,11 +163,136 @@ app.post('/delete',authenticateToken,async(req,res)=>{
         return res.status(500).json({ Message: "Failed to delete todo" , Error: err});
     }
 });
+
 // ------------------------------------------------------------------------------------
 // Admin Routes
 // ------------------------------------------------------------------------------------
+app.post('/admin',authenticateToken,adminMiddleware,async(req,res)=>{
+    return res.status(200).json({ Message: "Login Success"});
+})
 
+app.post('/admin/usr/add',authenticateToken,adminMiddleware,(req,res)=>{
+    const bodyData = req.body;
+    const {isAdmin} = req.body;
+    if(!bodyData.name || !bodyData.username || !bodyData.password){
+        return res.json({Message:"Provide Name, Username and Password"}).status(422);
+    }
+    try{
+        const newUser = userSchema.safeParse(bodyData);
+        if(!newUser.success){
+            return res.json({Message:"Provide data as String"}).status(422);
+        }
 
+        if(isAdmin){
+            newUser.data.isAdmin = true;
+        }else{
+            newUser.data.isAdmin = false;
+        }
+
+        const createdUser = users.create(newUser.data);
+        console.log('User Created Successfully:',createdUser);
+        return res.status(200).json({ Message: "User created successfully", user: createdUser });
+    }catch(err){
+        console.error("Error Creating User:",err);
+        return res.status(500).json({ Message: "Failed to create user" });
+    }
+})
+
+app.post('/admin/usr/delete',authenticateToken,adminMiddleware,async(req,res)=>{
+    const id = req.query.id;
+    if(!id){
+        return res.status(422).json({ Message: "Provide user id" });
+    }
+    try{
+        const deletedUser = await users.findByIdAndDelete(id);
+        console.log('User Deleted Successfully:',deletedUser);
+        return res.status(200).json({ Message: "User deleted successfully", user: deletedUser });
+    }catch(err){
+        console.error("Error Deleting User:",err);
+        return res.status(500).json({ Message: "Failed to delete user" });
+    }
+});
+
+app.post('/admin/usr/update',authenticateToken,adminMiddleware,async(req,res)=>{
+    const id = req.query.id;
+    const {name,username,password} = req.body;
+    if(!id || (!name && !username && !password)){
+        return res.status(422).json({ Message: "Provide id and at least one field to update (name, username or password)" });
+    }
+    try{
+        const user = await users.findOne({ _id: id });
+        if(!user){
+            return res.status(404).json({ Message: "User not found" });
+        }
+        if(name) user.name = name;
+        if(username) user.username = username;
+        if(password) user.password = password;
+        const updatedUser = await user.save();
+        console.log('User Updated Successfully:',updatedUser);
+        return res.status(200).json({ Message: "User updated successfully", user: updatedUser });
+    }catch(err){
+        console.error("Error Updating User:",err);
+        return res.status(500).json({ Message: "Failed to update user" });
+    }
+});
+
+app.post('/admin/todos/add',authenticateToken,adminMiddleware,async(req,res)=>{
+    const bodyData = req.body;
+    if(!bodyData.title || !bodyData.description){
+        return res.json({Message:"Provide Title and Description"}).status(422);
+    }
+    try{
+        const newTodo = todoSchema.safeParse(bodyData);
+        if(!newTodo.success){
+            return res.json({Message:"Provide data as String"}).status(422);
+        }
+        newTodo.data.user = req.user._id;
+        const createdTodo = await todos.create(newTodo.data);
+        console.log('Todo Created Successfully:',createdTodo);
+        return res.status(200).json({ Message: "Todo created successfully", todo: createdTodo });
+    }catch(err){
+        console.error("Error Creating Todo:",err);
+        return res.status(500).json({ Message: "Failed to create todo" });
+    }
+});
+
+app.post('/admin/todos/update',authenticateToken,adminMiddleware,async(req,res)=>{
+    const id = req.query.id;
+    const {title,description,completed} = req.body;
+    if(!id || (!title && !description && !completed)){
+        return res.status(422).json({ Message: "Provide id and at least one field to update (title, description or completed)" });
+    }
+    try{
+        const todo = await todos.findOne({ _id: id, user: req.user._id });
+        if(!todo){
+            return res.status(404).json({ Message: "Todo not found or does not belong to the user" });
+        }
+        if(title) todo.title = title;
+        if(description) todo.description = description;
+        if(completed) todo.completed = completed;
+        const updatedTodo = await todo.save();
+        console.log('Todo Updated Successfully:',updatedTodo);
+        return res.status(200).json({ Message: "Todo updated successfully", todo: updatedTodo });
+    }catch(err){
+        console.error("Error Updating Todo:",err);
+        return res.status(500).json({ Message: "Failed to update todo" });
+    }
+});
+
+app.post('/admin/todos/delete',authenticateToken,adminMiddleware,async(req,res)=>{
+    const id = req.query.id;
+    if(!id){
+        return res.status(422).json({ Message: "Provide id" });
+    }
+    try{
+        const deletedTodo = await todos.findByIdAndDelete(id);
+        console.log('Todo Deleted Successfully:',deletedTodo);
+        return res.status(200).json({ Message: "Todo deleted successfully", todo: deletedTodo });
+    }catch(err){
+        console.error("Error Deleting Todo:",err);
+        return res.status(500).json({ Message: "Failed to delete todo" });
+    }
+});
 
 // ------------------------------------------------------------------------------------
 // 404
