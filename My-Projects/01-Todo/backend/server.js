@@ -6,6 +6,7 @@ const {userSchema ,todoSchema} = require('./Database/zod');
 const {users} = require('./Database/userSchema');
 const {todos} = require('./Database/todoSchema');
 const jwt = require('jsonwebtoken');
+const {authenticateToken} = require('./Middleware/middleware')
 const {jwtToken} = require('../../../database');
 
 // ------------------------------------------------------------------------------------
@@ -65,27 +66,21 @@ app.post('/login',async(req,res)=>{
 // ------------------------------------------------------------------------------------
 // Todo Routes
 // ------------------------------------------------------------------------------------
-app.post('/addtodo',async(req,res)=>{
-    const token = req.body.token;
+app.post('/addtodo',authenticateToken,async(req,res)=>{
     const bodyData = req.body;
-    
-    if(!token){
-        return res.json({Message:"Please Provide Token"}).status(422);
-    }
     
     if(!bodyData.title || !bodyData.description){
         return res.json({Message:"Provide Title and Description"}).status(422);
     }
 
     try{
-        const decoded = jwt.verify(token,jwtToken);
         const newTodo = todoSchema.safeParse(bodyData);
 
         if(!newTodo.success){
             return res.json({Message:"Provide data as String"}).status(422);
         }
 
-        newTodo.data.user = decoded._id;
+        newTodo.data.user = req.user._id;
 
         const createdTodo = await todos.create(newTodo.data);
         console.log('Todo Created Successfully:',createdTodo);
@@ -97,21 +92,30 @@ app.post('/addtodo',async(req,res)=>{
     }
 });
 
-app.post('/todo',async(req,res)=>{
-
-    const token = req.body.token;    
-    if(!token){
-        return res.json({Message:"Please Provide Token"}).status(422);
-    }
-
+app.post('/todo',authenticateToken, async(req,res)=>{
     try{
-        const decoded = jwt.verify(token,jwtToken);
-        const todosData = await todos.find({user:decoded._id});
-        
+        const todosData = await todos.find({user:req.user._id});
         return res.status(200).json({ Message: "Todos fetched successfully", todos: todosData });
     }catch(err){
         console.error("Error Fetching Todos:",err);
         return res.status(500).json({ Message: "Failed to fetch todos" });
+    }
+});
+
+app.post('/todo:id',authenticateToken,async(req,res)=>{
+    const id = req.body.id;
+
+    try {
+        const todo = await todos.findOne({ _id: id, user: req.user._id });
+
+        if (!todo) {
+            return res.status(404).json({ Message: "Todo not found" });
+        }
+
+        return res.status(200).json({ Message: "Todo fetched successfully", todo });
+    } catch (err) {
+        console.error("Error Fetching Todo:", err);
+        return res.status(500).json({ Message: "Failed to fetch todo" });
     }
 });
 
