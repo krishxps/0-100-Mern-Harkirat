@@ -1,0 +1,15 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "author": "Krish S Patel",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^8.4.5",
+    "zod": "^3.23.8"
+  }
+}
