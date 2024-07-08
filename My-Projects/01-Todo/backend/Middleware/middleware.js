@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const {jwtToken} = require('../../../../database')
+const {users} = require('../Database/userSchema');
 
 const authenticateToken = (req, res, next) => {
     const token = req.header('token')?.split(' ')[1]; 
@@ -17,15 +18,11 @@ const authenticateToken = (req, res, next) => {
     }
 };
 
-const adminMiddleware = (req , res, next) => {
-    if(!req.user){
-        return res.status(401).json({ Message: "Access Denied: No User Authenticated" });
-    }
-
-    if(!req.user.isAdmin){
+const adminMiddleware = async(req , res, next) => {
+    const User = await users.findOne({ _id: req.user._id });
+    if(!User.isAdmin){
         return res.status(403).json({ Message: "Access Denied: Admins Only" });
     }
-
     next();
 } 
 
