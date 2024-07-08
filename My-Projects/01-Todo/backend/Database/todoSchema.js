@@ -8,7 +8,6 @@ const task = mongoose.Schema({
     description: String,
     completed: Boolean,
     createdAt: Date,
-    deadline: Date
 });
 
 const todos = mongoose.model('todos',task);

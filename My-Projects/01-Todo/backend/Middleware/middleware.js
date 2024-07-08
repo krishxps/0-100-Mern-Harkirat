@@ -17,4 +17,19 @@ const authenticateToken = (req, res, next) => {
     }
 };
 
-module.exports = authenticateToken;
+const adminMiddleware = (req , res, next) => {
+    if(!req.user){
+        return res.status(401).json({ Message: "Access Denied: No User Authenticated" });
+    }
+
+    if(!req.user.isAdmin){
+        return res.status(403).json({ Message: "Access Denied: Admins Only" });
+    }
+
+    next();
+} 
+
+module.exports = {
+    authenticateToken,
+    adminMiddleware
+};
