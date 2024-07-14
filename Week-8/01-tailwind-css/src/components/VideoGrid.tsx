@@ -37,6 +37,46 @@ const VIDEOS = [
     image: imgSrc,
     thumbImage: channelImg,
   },
+  {
+    title: "Delhi Meetup Cohort 3.0",
+    author: "Krish Patel",
+    views: "1.2M Views",
+    date: "2 Days ago",
+    image: imgSrc,
+    thumbImage: channelImg,
+  },
+  {
+    title: "Delhi Meetup Cohort 3.0",
+    author: "Krish Patel",
+    views: "1.2M Views",
+    date: "2 Days ago",
+    image: imgSrc,
+    thumbImage: channelImg,
+  },
+  {
+    title: "Delhi Meetup Cohort 3.0",
+    author: "Krish Patel",
+    views: "1.2M Views",
+    date: "2 Days ago",
+    image: imgSrc,
+    thumbImage: channelImg,
+  },
+  {
+    title: "Delhi Meetup Cohort 3.0",
+    author: "Krish Patel",
+    views: "1.2M Views",
+    date: "2 Days ago",
+    image: imgSrc,
+    thumbImage: channelImg,
+  },
+  {
+    title: "Delhi Meetup Cohort 3.0",
+    author: "Krish Patel",
+    views: "1.2M Views",
+    date: "2 Days ago",
+    image: imgSrc,
+    thumbImage: channelImg,
+  }
 ];
 
 export const VideoGrid = () => {
