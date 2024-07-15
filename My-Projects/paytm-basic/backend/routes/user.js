@@ -2,7 +2,7 @@
 // Imports
 // --------------------------------------------------------------------------------
 const express = require("express");
-const {userSchema, userLogin} = require('../zod');
+const {userSchema, userLogin , updateBody} = require('../zod');
 const jwt = require('jsonwebtoken');
 const {User} = require('../db');
 const {JWT_SECRET} = require('../config');
@@ -13,7 +13,7 @@ const {authMiddleware} = require('../middleware');
 const router = express.Router();
 
 // --------------------------------------------------------------------------------
-// User Routes
+// User Routes - Login and Signup
 // --------------------------------------------------------------------------------
 router.post("/signup", async(req, res) => {
 
@@ -75,6 +75,50 @@ router.post("/login", async(req, res) => {
 
     return res.status(200).json({
         token: token
+    });
+})
+
+// --------------------------------------------------------------------------------
+// User Routes - CRUD
+// --------------------------------------------------------------------------------
+router.put('/',authMiddleware,async(req, res) => {
+    const { success } = updateBody.safeParse(req.body);
+    if(!success) {
+        return res.status(411).json({
+            message: "Incorrect inputs"
+        })
+    }
+
+    const user = await User.updateOne({_id: req.userId}, req.body);
+
+    res.json({
+        message: "Updated successfully",
+        User : user
+    })
+})
+
+// Filter users
+router.get('/bulk', async(req, res) => {
+    const filter = req.query.filter || "";
+    const users = await User.find({
+        $or: [{
+            firstName: {
+                "$regex": filter
+            }
+        }, {
+            lastName: {
+                "$regex": filter
+            }
+        }]
+    })
+
+    res.json({
+        user: users.map(user => ({
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            _id: user._id
+        }))
     });
 })
 
