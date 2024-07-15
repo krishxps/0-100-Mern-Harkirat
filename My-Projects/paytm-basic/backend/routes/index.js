@@ -3,14 +3,15 @@
 // --------------------------------------------------------------------------------
 const express = require('express');
 const userRouter = require('./user');
-const router = express.Router();
+const accountRouter = require('./account');
 
+const router = express.Router();
 // --------------------------------------------------------------------------------
 // Routes
 // --------------------------------------------------------------------------------
 // All user routes go here
 router.use("/user", userRouter);
-
+router.use("/account", accountRouter);
 // --------------------------------------------------------------------------------
 // Exports
 // --------------------------------------------------------------------------------
