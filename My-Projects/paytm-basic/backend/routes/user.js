@@ -6,6 +6,7 @@ const {userSchema, userLogin} = require('../zod');
 const jwt = require('jsonwebtoken');
 const {User} = require('../db');
 const {JWT_SECRET} = require('../config');
+const {authMiddleware} = require('../middleware');
 // --------------------------------------------------------------------------------
 // Routes
 // --------------------------------------------------------------------------------
@@ -80,8 +81,10 @@ router.post("/login", async(req, res) => {
 // --------------------------------------------------------------------------------
 // Delete Later
 // --------------------------------------------------------------------------------
-router.get('/', (req, res) => {
-    res.send("Hello World");
+router.get('/', authMiddleware,(req, res) => {
+    res.json({
+        message: "Hello World"
+    });
 })
 
 // --------------------------------------------------------------------------------
