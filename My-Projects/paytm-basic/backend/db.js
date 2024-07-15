@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema({
 // Account Schema
 // --------------------------------------------------------------------------------
 const accountSchema = new mongoose.Schema({
-    userID: {
+    userId: {
         type: String,
         required: true
     },

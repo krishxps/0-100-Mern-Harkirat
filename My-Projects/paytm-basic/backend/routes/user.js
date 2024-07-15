@@ -40,16 +40,16 @@ router.post("/signup", async(req, res) => {
         lastName: req.body.lastName
     });
 
-    const userID = user._id;
+    const userId = user._id;
 
     // Create Account
     await Account.create({
-        userID,
+        userId,
         balance: 1 + Math.random() * 10000
     });
 
     const token = jwt.sign({
-        userID
+        userId
     }, JWT_SECRET);
 
     console.log("Token:",token, "User:", user);
@@ -71,10 +71,10 @@ router.post("/login", async(req, res) => {
         })
     }
 
-    const userID = user._id;
+    const userId = user._id;
 
     const token = jwt.sign({
-        userID: userID
+        userId: userId
     }, JWT_SECRET);
 
     console.log("Token:",token, "User:", user);

@@ -40,7 +40,7 @@ router.post("/transfer", authMiddleware, async (req, res) => {
         });
     }
 
-    const toAccount = await Account.findOne({ userID: to }).session(session);
+    const toAccount = await Account.findOne({ userId: to }).session(session);
     
     if (!toAccount) {
         await session.abortTransaction();
@@ -50,7 +50,7 @@ router.post("/transfer", authMiddleware, async (req, res) => {
     }
 
     await Account.updateOne({ userId: req.userId }, { $inc: { balance: -amount } }).session(session);
-    await Account.updateOne({ userID: to }, { $inc: { balance: amount } }).session(session);
+    await Account.updateOne({ userId: to }, { $inc: { balance: amount } }).session(session);
 
     await session.commitTransaction();
 
