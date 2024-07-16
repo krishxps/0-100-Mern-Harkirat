@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
-import { useState, useNavigate } from 'react';
+import { useState } from 'react';
 
 export const SendMoney = () => {
     const [searchParams] = useSearchParams();

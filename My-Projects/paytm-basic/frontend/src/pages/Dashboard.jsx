@@ -22,7 +22,7 @@ export const Dashboard = () => {
 
     useEffect(() => {
         getBalance();
-    }, []); // Empty dependency array to run only once on component mount
+    }, []);
 
     return (
         <div>
