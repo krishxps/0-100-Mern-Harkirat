@@ -1,29 +1,20 @@
-import { Link } from "react-router-dom";
+import { NAME , Logo } from "../constants/constants";
 
-export function Navbar() {
-
+export const Navbar = () => {
   return (
-    <header className="container mx-auto px-4 py-2">
-      <div className="flex items-center justify-between">
-        <ul className="flex gap-2 items-center">
-          <li>
-            <Link to="/report">
-              <button className="flex items-center gap-1 bg-opacity-90 bg-white dark:bg-gray-800 text-white dark:text-gray-200 px-2 py-1 rounded transition-transform duration-100 ease-in-out transform hover:opacity-100 hover:translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                <span className="hidden sm:inline">Report</span>
-              </button>
-            </Link>
-          </li>
-          <li>
-            <Link to="/settings">
-              <button className="flex items-center gap-1 bg-opacity-90 bg-white dark:bg-gray-800 text-white dark:text-gray-200 px-2 py-1 rounded transition-transform duration-100 ease-in-out transform hover:opacity-100 hover:translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                <span className="hidden sm:inline">Settings</span>
-              </button>
-            </Link>
-          </li>
-          <li>
-          </li>
-        </ul>
+    <header className="flex items-center justify-between border-b border-solid border-b-[#382929] px-10 py-3 text-white">
+      <div className="flex items-center gap-4">
+        <Logo />
+        <h2 className="text-lg font-bold leading-tight tracking-wide">{NAME}</h2>
+      </div>
+      <div className="flex flex-1 justify-end gap-8 items-center">
+        <a href="#" className="text-sm font-medium leading-normal text-white">Features</a>
+        <a href="#" className="text-sm font-medium leading-normal text-white">Settings</a>
+        <a href="#" className="text-sm font-medium leading-normal text-white">Code Source</a>
+        <button className="flex items-center justify-center w-24 h-10 px-4 bg-[#df2020] text-white text-sm font-bold leading-normal rounded-full">
+          <span className="truncate">Sign in</span>
+        </button>
       </div>
     </header>
   );
-}
+};

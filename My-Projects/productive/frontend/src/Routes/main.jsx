@@ -1,14 +1,16 @@
-import { Footer } from "../components/Footer";
-import { Navbar } from "../components/Navbar";
+import {Footer} from '../components/Footer';
+import {Navbar} from '../components/Navbar';
+import {MainContent} from '../components/MainContent';
 
-export function Main() {
-    return (
-        <div className="bg-slate-800 h-screen">
-            <Navbar />
-            <div className="bg-blue-800 h-5/6">
-                Main
-            </div>
-            <Footer />
-        </div>
-    )
-}
+export const Main = () => {
+  return (
+    <div className="bg-[#171111] min-h-screen flex flex-col">
+      <div className="flex-grow">
+        <Navbar />
+        <MainContent />
+      </div>
+        <Footer />
+    </div>
+  );
+};
+
