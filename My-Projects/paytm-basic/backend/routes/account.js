@@ -25,38 +25,34 @@ router.get("/balance", authMiddleware, async (req, res) => {
 });
 
 router.post("/transfer", authMiddleware, async (req, res) => {
-    // Session is used to handle transactions in the database because it is an asynchronous operation that returns a promise that resolves when the transaction is committed. if any reason fails, the transaction is aborted and the promise is rejected. 
     const session = await mongoose.startSession();
-
     session.startTransaction();
-    const { amount, to } = req.body;
 
-    const account = await Account.findOne({ userId: req.userId }).session(session);
-    
-    if (!account || account.balance < amount) {
+    try {
+        const { amount, to } = req.body;
+        const account = await Account.findOne({ userId: req.userId }).session(session);
+
+        if (!account || account.balance < amount) {
+            throw new Error("Insufficient balance");
+        }
+
+        const toAccount = await Account.findOne({ userId: to }).session(session);
+        if (!toAccount) {
+            throw new Error("Invalid account");
+        }
+
+        await Account.updateOne({ userId: req.userId }, { $inc: { balance: -amount } }).session(session);
+        await Account.updateOne({ userId: to }, { $inc: { balance: amount } }).session(session);
+        console.log(`Transfer of ${amount} units completed successfully`);
+        await session.commitTransaction();
+        res.json({ message: "Transfer successful" });
+    } catch (error) {
         await session.abortTransaction();
-        return res.status(400).json({
-            message: "Insufficient balance"
-        });
+        console.error("Error in transaction:", error);
+        res.status(500).json({ message: "Transaction aborted due to error" });
+    } finally {
+        session.endSession();
     }
-
-    const toAccount = await Account.findOne({ userId: to }).session(session);
-    
-    if (!toAccount) {
-        await session.abortTransaction();
-        return res.status(400).json({
-            message: "Invalid account"
-        });
-    }
-
-    await Account.updateOne({ userId: req.userId }, { $inc: { balance: -amount } }).session(session);
-    await Account.updateOne({ userId: to }, { $inc: { balance: amount } }).session(session);
-
-    await session.commitTransaction();
-
-    res.json({
-        message: "Transfer successful"
-    });
 });
 
 // --------------------------------------------------------------------------------
