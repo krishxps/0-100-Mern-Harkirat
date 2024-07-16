@@ -1,14 +1,14 @@
 /* eslint-disable react/no-unknown-property */
 import { useSearchParams } from 'react-router-dom';
 import axios from "axios";
-import { useState } from 'react';
+import { useState, useNavigate } from 'react';
 
 export const SendMoney = () => {
     const [searchParams] = useSearchParams();
     const id = searchParams.get("id");
     const name = searchParams.get("name");
     const [amount, setAmount] = useState(0);
-
+    const navigate = useNavigate();
     const initiateTransfer = async () => {
         try {
             await axios.post("http://localhost:3000/api/v1/account/transfer", {
@@ -19,6 +19,7 @@ export const SendMoney = () => {
                     Authorization: "Bearer " + localStorage.getItem("authorization")
                 }
             });
+            navigate("/dashboard");
         } catch (error) {
             console.error("Transfer failed", error);
         }
