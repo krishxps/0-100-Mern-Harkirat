@@ -3,6 +3,7 @@ import {Signup} from "./pages/Signup"
 import {Signin} from "./pages/Signin"
 import {Dashboard} from "./pages/Dashboard"
 import {SendMoney} from "./pages/Send"
+import { Suspense } from "react"
 
 function App() {
 
@@ -11,7 +12,7 @@ return <>
     <Routes>
       <Route path="/" element={navigator.onLine ? <Signup /> : <Signup />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/signin" element={<Signin />} />
+      <Route path="/login" element={<Suspense fallback={<div>Loading...</div>}> <Signin /></Suspense>} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/send" element={<SendMoney />} />
     </Routes>

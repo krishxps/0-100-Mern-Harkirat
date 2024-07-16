@@ -1,13 +1,13 @@
+import { useNavigate } from "react-router-dom"
+import axios from "axios";
+import { useState } from "react"
 import { BottomWarning } from "../components/BottomWarning"
 import { Button } from "../components/Button"
 import { Heading } from "../components/Heading"
 import { InputBox } from "../components/InputBox"
 import { SubHeading } from "../components/Subheading"
-import axios from "axios";
-import { useNavigate } from "react-router-dom"
-import { useState } from "react"
 
-export const Signin = async() => {
+export const Signin = () => {
     const navigate = useNavigate();
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
