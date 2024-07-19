@@ -1,5 +1,5 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Component } from 'react';
 
 function App() {
   const [showComponent, setShowComponent] = useState(true);
@@ -19,18 +19,32 @@ function App() {
   );
 }
 
-function MyComponent() {
-  useEffect(() => {
-    // This will run when the component mounts
+// function MyComponent() {
+//   useEffect(() => {
+//     // This will run when the component mounts
+//     console.error('Component mounted');
+
+//     // This will run when the component unmounts
+//     return () => {
+//       console.log('Component will unmount');
+//     };
+//   }, []);
+
+//   return <div>My Component</div>;
+// }
+
+class MyComponent extends Component {
+  componentDidMount() {
     console.error('Component mounted');
+  }
 
-    // This will run when the component unmounts
-    return () => {
-      console.log('Component will unmount');
-    };
-  }, []);
+  componentWillUnmount() {
+    // Clean up (e.g., remove event listeners or cancel subscriptions)
+    console.log('Component will unmount');
+  }
 
-  return <div>My Component</div>;
+  render() {
+    return <div>My Component</div>;
+  }
 }
-
 export default App;
