@@ -50,6 +50,9 @@ import './App.css';
 //   }
 // }
 
+// ---------------------------------------------------------------------------
+// Data fetching custom hook 
+// ---------------------------------------------------------------------------
 
 // Data fetching hooks
 // import { useEffect, useState } from 'react'
@@ -71,6 +74,10 @@ import './App.css';
 //     </>
 //   )
 // }
+
+// ---------------------------------------------------------------------------
+// Data fetching custom hook with timeout
+// ---------------------------------------------------------------------------
 
 // function useTodos(n) {
 //   const [loading, setLoading] = useState(true);
@@ -157,33 +164,80 @@ import './App.css';
 // -----------------------------------------------------------------------------------------
 // Hook for mouse position
 // -----------------------------------------------------------------------------------------
-import { useEffect, useState } from 'react'
+// import { useEffect, useState } from 'react'
 
-const useMousePointer = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+// const useMousePointer = () => {
+//   const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e) => {
-    setPosition({ x: e.clientX, y: e.clientY });
-  };
+//   const handleMouseMove = (e) => {
+//     setPosition({ x: e.clientX, y: e.clientY });
+//   };
+
+//   useEffect(() => {
+//     window.addEventListener('mousemove', handleMouseMove);
+//     return () => {
+//       window.removeEventListener('mousemove', handleMouseMove);
+//     };
+//   }, []);
+
+//   return position;
+// };
+
+// function App() {
+//   const mousePointer = useMousePointer();
+
+//   return (
+//     <>
+//       Your mouse position is {mousePointer.x} {mousePointer.y}
+//     </>
+//   )
+// }
+
+// export default App
+
+// -----------------------------------------------------------------------------------------
+// Hook for debouncing
+// -----------------------------------------------------------------------------------------
+import { useState, useEffect } from 'react';
+
+const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
 
-  return position;
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
 };
 
-function App() {
-  const mousePointer = useMousePointer();
+const SearchBar = () => {
+  const [inputValue, setInputValue] = useState('');
+  const debouncedValue = useDebounce(inputValue, 5000); // 500 milliseconds debounce delay
 
+  useEffect(() => {
+    if (debouncedValue) {
+      console.log(debouncedValue);
+    }
+  }, [debouncedValue]);
+
+  useEffect(() => {
+    console.log(inputValue);
+  }, [inputValue]);
+  
   return (
-    <>
-      Your mouse position is {mousePointer.x} {mousePointer.y}
-    </>
-  )
-}
+    <input
+      type="text"
+      value={inputValue}
+      onChange={(e) => setInputValue(e.target.value)}
+      placeholder="Search..."
+    />
+  );
+};
 
-export default App
+export default SearchBar;
