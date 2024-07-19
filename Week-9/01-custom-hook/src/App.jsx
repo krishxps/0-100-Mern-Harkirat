@@ -218,16 +218,16 @@ const useDebounce = (value, delay) => {
 
 const SearchBar = () => {
   const [inputValue, setInputValue] = useState('');
-  const debouncedValue = useDebounce(inputValue, 5000); // 500 milliseconds debounce delay
+  const debouncedValue = useDebounce(inputValue, 500); // 500 milliseconds debounce delay
 
   useEffect(() => {
     if (debouncedValue) {
-      console.log(debouncedValue);
+      console.log("Debounced value:",debouncedValue);
     }
   }, [debouncedValue]);
 
   useEffect(() => {
-    console.log(inputValue);
+    console.log("Input value:",inputValue);
   }, [inputValue]);
   
   return (
