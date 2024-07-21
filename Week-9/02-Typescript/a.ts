@@ -100,9 +100,65 @@ type Manager = {
 type TeamLead = Employee & Manager;
 
 const teamLead: TeamLead = {
-    name: "harkirat",
+    name: "Krish Patel",
     startDate: new Date(),
     department: "Software developer",
 };
 
 console.log(teamLead);
+
+// Arrys in TypeScript
+interface UserForArray {
+	firstName: string;
+	lastName: string;
+	age: number;
+}
+
+function filteredUsers(users: UserForArray[]) {
+    return users.filter(x => x.age >= 18);
+}
+
+console.log(filteredUsers([{
+    firstName: "Krish",
+    lastName: "Patel",
+    age: 21
+}, {
+    firstName: "Jon",
+    lastName: "Snow",
+    age: 19
+}, ]));
+
+// Enums
+enum Direction {
+    Up,
+    Down,
+    Left,
+    Right
+}
+
+function doSomething(keyPressed: Direction) {
+    switch (keyPressed) {
+        case Direction.Up:
+            console.log("Up");
+            break;
+        case Direction.Down:
+            console.log("Down");
+            break;
+        case Direction.Left:
+            console.log("Left");
+            break;
+        case Direction.Right:
+            console.log("Right");
+            break;
+    }
+}
+
+doSomething(Direction.Up);
+
+// Generics
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+console.log(identity<number>(10));
+console.log(identity<string>("Krish"));
