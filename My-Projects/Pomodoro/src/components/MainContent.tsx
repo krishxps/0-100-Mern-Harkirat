@@ -17,7 +17,6 @@ export const MainContent = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Check if there is updated time from navigation state
     if (location.state?.updatedTime) {
       setLastUserTime(location.state.updatedTime);
       setTime(location.state.updatedTime);
@@ -69,8 +68,8 @@ export const MainContent = () => {
   };
 
   const handleSettingsUpdate = (newTime: number) => {
-    setLastUserTime(newTime); // Save the new time
-    setTime(newTime); // Update the timer state
+    setLastUserTime(newTime); 
+    setTime(newTime); 
   };
 
   return (
