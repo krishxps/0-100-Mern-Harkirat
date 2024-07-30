@@ -3,16 +3,16 @@ import { useNavigate } from 'react-router-dom';
 
 interface ButtonProps {
   text: string;
-  onClick: () => void;
+  onClick?: () => void; // Optional onClick for buttons where you might not need to navigate
 }
 
 export const StartButton: React.FC<ButtonProps> = ({ text, onClick }) => {
-    return (
-      <button className="w-24 h-10 px-4 bg-[#df2020] text-white text-sm font-bold leading-normal rounded-full mx-2" onClick={onClick}>
-        {text}
-      </button>
-    );
-  };
+  return (
+    <button className="w-24 h-10 px-4 bg-[#df2020] text-white text-sm font-bold leading-normal rounded-full mx-2" onClick={onClick}>
+      {text}
+    </button>
+  );
+};
 
 export const ResetButton: React.FC<ButtonProps> = ({ text, onClick }) => {
   return (
@@ -22,13 +22,15 @@ export const ResetButton: React.FC<ButtonProps> = ({ text, onClick }) => {
   );
 };
 
-export const SettingsButton: React.FC<ButtonProps> = ({ text, onClick }) => {
-    const navigate = useNavigate();
-    function handleClick() {
-      navigate('/settings');
-    }
+export const SettingsButton: React.FC<ButtonProps> = ({ text }) => {
+  const navigate = useNavigate();
+  
+  const handleClick = () => {
+    navigate('/settings');
+  };
+
   return (
-    <button onClick={onClick} className="w-24 h-10 px-4 bg-transparent text-white text-sm font-bold leading-normal rounded-full mx-2" onClick={handleClick} >
+    <button onClick={handleClick} className="w-24 h-10 px-4 bg-transparent text-white text-sm font-bold leading-normal rounded-full mx-2">
       <span className="truncate">{text}</span>
     </button>
   );
