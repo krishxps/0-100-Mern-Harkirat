@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { timerState } from '../Recoil/TimerContext';
 import { Timer } from './Timer';
@@ -14,6 +14,15 @@ export const MainContent = () => {
   const [lastUserTime, setLastUserTime] = useState<number>(DEFAULT_TIME); 
   const timeRef = useRef<NodeJS.Timeout | null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Check if there is updated time from navigation state
+    if (location.state?.updatedTime) {
+      setLastUserTime(location.state.updatedTime);
+      setTime(location.state.updatedTime);
+    }
+  }, [location.state, setLastUserTime, setTime]);
 
   useEffect(() => {
     if (isActive) {
@@ -60,8 +69,8 @@ export const MainContent = () => {
   };
 
   const handleSettingsUpdate = (newTime: number) => {
-    setLastUserTime(newTime);
-    setTime(newTime);
+    setLastUserTime(newTime); // Save the new time
+    setTime(newTime); // Update the timer state
   };
 
   return (
