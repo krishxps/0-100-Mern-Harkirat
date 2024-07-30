@@ -1,40 +1,43 @@
-import { useNavigate } from 'react-router-dom';
-import { Timer } from '../components/Timer';
-import { StartButton, ResetButton, SettingsButton } from '../components/Button';
-import { Description } from '../components/Description';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { timerState } from '../Recoil/TimerContext';
+import { Timer } from './Timer';
+import { StartButton, ResetButton, SettingsButton } from './Button';
+import { Description } from './Description';
+
+const DEFAULT_TIME = 25 * 60;
 
 export const MainContent = () => {
-  const [totalSeconds, setTotalSeconds] = useRecoilState(timerState);
+  const [time, setTime] = useRecoilState(timerState);
   const [isActive, setIsActive] = useState(false);
-  const [buttonText, setButtonText] = useState('Start');
-  const timeRef = useRef<number | null>(null);
+  const [lastUserTime, setLastUserTime] = useState<number>(DEFAULT_TIME); 
+  const timeRef = useRef<NodeJS.Timeout | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isActive) {
-      timeRef.current = window.setInterval(() => {
-        setTotalSeconds(prevTime => {
+      timeRef.current = setInterval(() => {
+        setTime((prevTime) => {
           if (prevTime === 0) {
             playSound();
             setIsActive(false);
-            setButtonText('Start'); 
-            return 0;
+            return prevTime;
           }
           return prevTime - 1;
         });
       }, 1000);
-    } else if (timeRef.current) {
-      clearInterval(timeRef.current);
+    } else {
+      if (timeRef.current) {
+        clearInterval(timeRef.current);
+      }
     }
     return () => {
       if (timeRef.current) {
         clearInterval(timeRef.current);
       }
     };
-  }, [isActive, setTotalSeconds]);
+  }, [isActive, setTime]);
 
   const playSound = () => {
     const audio = new Audio('https://commondatastorage.googleapis.com/codeskulptor-assets/Evillaugh.ogg');
@@ -42,37 +45,46 @@ export const MainContent = () => {
   };
 
   const handleStartClick = () => {
-    if (totalSeconds > 0) {
-      setIsActive(prev => !prev);
-      setButtonText(prev => prev === 'Start' ? 'Pause' : 'Start');
+    if (time > 0) {
+      setIsActive((prev) => !prev); 
     }
   };
 
   const handleResetClick = () => {
     setIsActive(false);
-    setButtonText('Start');
-    setTotalSeconds(1500);
+    setTime(lastUserTime);
   };
 
   const handleSettingsClick = () => {
-    navigate('/settings');
+    navigate('/settings', { state: { onUpdateTime: handleSettingsUpdate } });
+  };
+
+  const handleSettingsUpdate = (newTime: number) => {
+    setLastUserTime(newTime);
+    setTime(newTime);
   };
 
   return (
-    <div className="px-40 flex justify-center py-5">
-      <div className="max-w-7xl flex flex-col w-full">
-        <Timer time={`${Math.floor(totalSeconds / 60)}:${String(totalSeconds % 60).padStart(2, '0')}`} />
-        <div className="flex justify-center">
-          <StartButton text={buttonText} onClick={handleStartClick} />
+    <div className="px-4 md:px-10 lg:px-20 flex justify-center py-5">
+      <div className="max-w-4xl flex flex-col w-full items-center">
+        <Timer time={formatTime(time)} />
+        <div className="flex justify-center mt-8 gap-4">
+          <StartButton text={isActive ? "Pause" : "Start"} onClick={handleStartClick} />
           <ResetButton text="Reset" onClick={handleResetClick} />
         </div>
-        <Description description="Press the start button to begin a 25 minutes Pomodoro." />
-        <div className="flex justify-center">
+        <Description description="Press the start button to begin a Pomodoro session." />
+        <div className="flex justify-center mt-4">
           <SettingsButton text="Settings" onClick={handleSettingsClick} />
         </div>
       </div>
     </div>
   );
+};
+
+const formatTime = (time: number): string => {
+  const minutes = Math.floor(time / 60);
+  const seconds = time % 60;
+  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 };
 
 export default MainContent;

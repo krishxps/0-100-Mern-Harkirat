@@ -1,19 +1,30 @@
-import { useNavigate } from 'react-router-dom';
+import {  useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { timerState } from '../Recoil/TimerContext';
 import { ActionButton } from '../components/ActionButton';
 import { NAME } from '../constants/constants';
 
 export const SettingsPage = () => {
-  const [time, setTime] = useRecoilState(timerState);
+  const [time] = useRecoilState(timerState);
+  const [newTime, setNewTime] = useState(time);
   const navigate = useNavigate();
+  const location = useLocation();
+  const handleSettingsUpdate = location.state?.onUpdateTime;
 
   const handleTimeChange = (value: number, unit: 'hours' | 'minutes' | 'seconds') => {
     const hours = unit === 'hours' ? value : Math.floor(time / 3600);
     const minutes = unit === 'minutes' ? value : Math.floor((time % 3600) / 60);
     const seconds = unit === 'seconds' ? value : time % 60;
     const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
-    setTime(totalSeconds);
+    setNewTime(totalSeconds);
+  };
+
+  const saveSettings = () => {
+    if (handleSettingsUpdate) {
+      handleSettingsUpdate(newTime);
+    }
+    navigate('/');
   };
 
   return (
@@ -24,7 +35,7 @@ export const SettingsPage = () => {
           <input 
             type="number" 
             className="w-24 h-16 bg-[#382929] rounded-md text-center text-2xl font-bold text-white"
-            value={Math.floor(time / 3600)} 
+            value={Math.floor(newTime / 3600)} 
             onChange={(e) => handleTimeChange(Number(e.target.value), 'hours')}
             min="0"
           />
@@ -34,7 +45,7 @@ export const SettingsPage = () => {
           <input 
             type="number" 
             className="w-24 h-16 bg-[#382929] rounded-md text-center text-2xl font-bold text-white"
-            value={Math.floor((time % 3600) / 60)} 
+            value={Math.floor((newTime % 3600) / 60)} 
             onChange={(e) => handleTimeChange(Number(e.target.value), 'minutes')}
             min="0"
           />
@@ -44,7 +55,7 @@ export const SettingsPage = () => {
           <input 
             type="number" 
             className="w-24 h-16 bg-[#382929] rounded-md text-center text-2xl font-bold text-white"
-            value={time % 60} 
+            value={newTime % 60} 
             onChange={(e) => handleTimeChange(Number(e.target.value), 'seconds')}
             min="0"
           />
@@ -56,7 +67,7 @@ export const SettingsPage = () => {
           text="Save" 
           bgColor="bg-[#df2020]" 
           additionalText="or press Space to start" 
-          onClick={() => navigate('/')} 
+          onClick={saveSettings} 
         />
         <ActionButton 
           text="Go Back" 

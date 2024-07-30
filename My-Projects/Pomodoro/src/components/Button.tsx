@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface ButtonProps {
   text: string;
@@ -22,8 +23,12 @@ export const ResetButton: React.FC<ButtonProps> = ({ text, onClick }) => {
 };
 
 export const SettingsButton: React.FC<ButtonProps> = ({ text, onClick }) => {
+    const navigate = useNavigate();
+    function handleClick() {
+      navigate('/settings');
+    }
   return (
-    <button onClick={onClick} className="w-24 h-10 px-4 bg-transparent text-white text-sm font-bold leading-normal rounded-full mx-2">
+    <button onClick={onClick} className="w-24 h-10 px-4 bg-transparent text-white text-sm font-bold leading-normal rounded-full mx-2" onClick={handleClick} >
       <span className="truncate">{text}</span>
     </button>
   );
