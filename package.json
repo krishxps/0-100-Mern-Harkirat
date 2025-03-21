@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "express": "^4.19.2",
+    "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.6.0",
     "mongoose": "^8.3.5",
